@@ -1,11 +1,11 @@
-import { EventEmitter, Injectable } from "@angular/core";
+import { Injectable } from "@angular/core";
 import { Ingredient } from "../shared/ingredient.model";
 import { Recipe } from "../shared/resipe.model";
 import { ShoppinglistService } from "../services/shoppinglist.service";
 
 @Injectable()
 export class RecipeService {
-  recipeSelected = new EventEmitter<Recipe>();
+
   private recipes: Recipe[] = [
     new Recipe(
       'Wiener Schnitzel',
@@ -36,10 +36,7 @@ export class RecipeService {
     ),
   ];
 
-  constructor(
-    private shoppingListService: ShoppinglistService,
-    ) { }
-
+  constructor(private shoppingListService: ShoppinglistService) { }
 
   /**
    * returns a copy of the recipes array
