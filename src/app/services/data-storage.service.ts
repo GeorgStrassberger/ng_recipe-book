@@ -14,15 +14,30 @@ export class DataStorageService {
         private recipesService: RecipeService,
     ) { }
 
-    storeRecipes() {
-        const recipes = this.recipesService.getRecipes();
+    storeRecipes(): void {
+        const recipes: Recipe[] = this.recipesService.getRecipes();
         this.http
-            .put(
+            .put<Recipe[]>(
                 'https://recipe-book-16779-default-rtdb.europe-west1.firebasedatabase.app/recipes.json',
                 recipes
             )
             .subscribe(response => {
                 console.log(response);
             });
+    }
+
+
+    fetchRecipes(): void {
+        this.http
+            .get<Recipe[]>(
+                'https://recipe-book-16779-default-rtdb.europe-west1.firebasedatabase.app/recipes.json'
+            )
+            .subscribe(
+                recipes => {
+                    console.log(recipes);
+                    this.recipesService.setRecipes(recipes);
+
+                }
+            );
     }
 }
