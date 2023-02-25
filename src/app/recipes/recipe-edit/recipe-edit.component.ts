@@ -15,32 +15,25 @@ export class RecipeEditComponent implements OnInit {
   editMode: boolean = false;
   recipeForm!: FormGroup;
 
-  get controls(): AbstractControl<any, any>[] {
+  get controls() { // a getter!
     return (<FormArray>this.recipeForm.get('ingredients')).controls;
   }
 
-  constructor(private route: ActivatedRoute,
+  constructor(
+    private route: ActivatedRoute,
     private recipeService: RecipeService,
     private router: Router) {
   }
 
   ngOnInit(): void {
-    this.route.params
-      .subscribe(
-        (params: Params): void => {
-          this.id = +params['id'];
-          this.editMode = params['id'] != null;
-          this.initForm();
-        }
-      );
+    this.route.params.subscribe((params: Params): void => {
+      this.id = +params['id'];
+      this.editMode = params['id'] != null;
+      this.initForm();
+    });
   }
 
   onSubmit(): void {
-    // const newRecipe = new Recipe(
-    //   this.recipeForm.value['name'],
-    //   this.recipeForm.value['description'],
-    //   this.recipeForm.value['imagePath'],
-    //   this.recipeForm.value['ingredients']);
     if (this.editMode) {
       this.recipeService.updateRecipe(this.id, this.recipeForm.value);
     } else {
