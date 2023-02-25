@@ -10,28 +10,28 @@ import { Recipe } from 'src/app/shared/resipe.model';
 })
 export class RecipeDetailComponent implements OnInit {
   recipe!: Recipe;
-  id:number = 0;
+  id: number = 0;
   constructor(
-        private recipeService: RecipeService,
-        private route: ActivatedRoute,
-        private router: Router,
-        ){}
-  ngOnInit() {
-    this.route.params.subscribe((params: Params) => {
+    private recipeService: RecipeService,
+    private route: ActivatedRoute,
+    private router: Router,
+  ) { }
+  ngOnInit(): void {
+    this.route.params.subscribe((params: Params): void => {
       this.id = +params['id'];
       this.recipe = this.recipeService.getRecipe(this.id);
     });
   }
-  onAddToShoppingList(){
+  onAddToShoppingList(): void {
     this.recipeService.addIngredientsToShoppingList(this.recipe.ingredients);
   }
-  onEditRecipe(){
-    this.router.navigate(['edit'], {relativeTo: this.route});
+  onEditRecipe(): void {
+    this.router.navigate(['edit'], { relativeTo: this.route });
     // this.router.navigate(['../', this.id, 'edit'], {relativeTo: this.route});
 
   }
 
-  onDeleteRecipe(){
+  onDeleteRecipe(): void {
     this.recipeService.deleteRecipe(this.id);
     this.router.navigate(['/recipes']);
   }
