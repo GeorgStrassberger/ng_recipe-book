@@ -18,7 +18,7 @@ import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component
 import { RecipeService } from "./services/recipe.service";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http"
 import { AuthComponent } from './auth/auth.component';
-import { AuthService } from './services/auth.service';
+import { AuthService } from './auth/auth.service';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 import { AuthIntercepterService } from './auth/auth-interceptor.service';
 

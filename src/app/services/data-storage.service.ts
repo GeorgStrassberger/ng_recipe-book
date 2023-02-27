@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { exhaustMap, map, take, tap } from "rxjs";
 import { Recipe } from "../shared/resipe.model";
 import { User } from "../shared/user.model";
-import { AuthService } from "./auth.service";
+import { AuthService } from "../auth/auth.service";
 import { RecipeService } from "./recipe.service";
 
 @Injectable({
