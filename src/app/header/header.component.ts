@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { DataStorageService } from '../services/data-storage.service';
@@ -16,14 +17,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(
     private dataStorageService: DataStorageService,
     private authService: AuthService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
     this.userSub = this.authService.user.subscribe(user => {
       this.isAutheticated = !user ? false : true;
       // this.isAutheticated = !!user; js trick 
-      console.log('NotUser:', !user);
-      console.log('NotNotUser:', !!user);
     });
   }
 
@@ -33,6 +33,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   onFetchData(): void {
     this.dataStorageService.fetchRecipes().subscribe();
+  }
+
+  onLogout(): void {
+    this.authService.logout();
+    this.router.navigate(['/auth']);
   }
 
   ngOnDestroy(): void {
