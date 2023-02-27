@@ -17,6 +17,7 @@ export class AuthService {
     TOKEN: string = 'AIzaSyCL3-vbY9XE8zj0zRxaQwII3Acl31_zoUQ';
 
     user: BehaviorSubject<User> = new BehaviorSubject<User>(null!);
+    private tokenExpirationTimer: NodeJS.Timeout | null = null;
 
     constructor(
         private http: HttpClient,
@@ -73,17 +74,21 @@ export class AuthService {
                 email: string,
                 id: string,
                 _token: string,
-                _tokenExirationDate: string
+                _tokenExpirationDate: string
             } = JSON.parse(ls);
 
             const loadedUser = new User(
                 userData.email,
                 userData.id,
                 userData._token,
-                new Date(userData._tokenExirationDate));
+                new Date(userData._tokenExpirationDate));
 
             if (loadedUser.token) {
                 this.user.next(loadedUser);
+                const tokenExpirationDateInMilliseconds: number = new Date(userData._tokenExpirationDate).getTime();
+                const currentDateInMilliseconds: number = new Date().getTime();
+                const expirationDuration: number = tokenExpirationDateInMilliseconds - currentDateInMilliseconds;
+                this.autoLogout(expirationDuration);
             }
         } else {
             return;
@@ -92,7 +97,21 @@ export class AuthService {
 
     logout(): void {
         this.user.next(null!);
+        this.router.navigate(['/auth']);
+        localStorage.removeItem('userData');
+        if (this.tokenExpirationTimer) {
+            clearTimeout(this.tokenExpirationTimer);
+        }
+        this.tokenExpirationTimer = null;
     }
+
+    autoLogout(expiratenDate: number): void {
+        console.log('expiratenDate: ', expiratenDate);
+        this.tokenExpirationTimer = setTimeout(() => {
+            this.logout();
+        }, expiratenDate);
+    }
+
 
     private handleAuthentication(
         email: string,
@@ -100,7 +119,8 @@ export class AuthService {
         token: string,
         expiresIn: number
     ): void {
-        const expiratenDate = new Date(new Date().getTime() + expiresIn * 1000);
+        const expiresInMilliseconds: number = expiresIn * 1000;
+        const expiratenDate = new Date(new Date().getTime() + expiresInMilliseconds);
         const user = new User(
             email,
             userId,
@@ -108,8 +128,10 @@ export class AuthService {
             expiratenDate
         );
         this.user.next(user);
+        this.autoLogout(expiresInMilliseconds);
         localStorage.setItem('userData', JSON.stringify(user));
     };
+
 
     private handleError(errorRes: HttpErrorResponse): Observable<never> {
         let errorMessage: string = 'An unknown error occurred!';
