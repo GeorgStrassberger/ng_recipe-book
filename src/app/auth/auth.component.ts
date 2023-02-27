@@ -1,7 +1,8 @@
-import { ElementSchemaRegistry } from "@angular/compiler";
 import { Component, OnInit } from "@angular/core";
 import { NgForm } from "@angular/forms";
+import { Observable } from "rxjs";
 import { AuthService } from "../services/auth.service";
+import { AuthResponseData } from "../shared/auth-response-data";
 
 @Component({
     selector: 'app-auth',
@@ -16,7 +17,7 @@ export class AuthComponent implements OnInit {
     error: string | null = null;
 
 
-    constructor(private AuthService: AuthService) { }
+    constructor(private authService: AuthService) { }
 
     ngOnInit(): void {
 
@@ -34,21 +35,25 @@ export class AuthComponent implements OnInit {
         const email: string = form.value.email;
         const password: string = form.value.password;
 
+        let authObs: Observable<AuthResponseData>;
+
         this.isLoading = true;
         if (this.isLoginMode) {
-            // ...
+            authObs = this.authService.login(email, password);
         } else {
-            this.AuthService.signup(email, password).subscribe(
-                resData => {
-                    console.log(resData);
-                    this.isLoading = false;
-                },
-                errorMessage => {
-                    console.log(errorMessage);
-                    this.error = errorMessage;
-                    this.isLoading = false;
-                });
+            authObs = this.authService.signup(email, password);
         }
+
+        authObs.subscribe(
+            resData => {
+                console.log(resData);
+                this.isLoading = false;
+            },
+            errorMessage => {
+                console.log(errorMessage);
+                this.error = errorMessage;
+                this.isLoading = false;
+            });
 
         form.reset();
     }
