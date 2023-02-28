@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpParams } from "@angular/common/http";
 import { AuthService } from "./auth.service";
 import { exhaustMap, take } from "rxjs";
+import { User } from "../shared/user.model";
 
 @Injectable()
 export class AuthIntercepterService implements HttpInterceptor {
@@ -13,7 +14,7 @@ export class AuthIntercepterService implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler) {
         return this.authService.user.pipe(
             take(1),
-            exhaustMap(user => {
+            exhaustMap((user: User) => {
                 if (!user) {
                     return next.handle(req);
                 }

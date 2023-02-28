@@ -10,7 +10,11 @@ import { AuthComponent } from './auth/auth.component';
 import { AuthGuard } from './auth/auth.guard';
 
 const appRoutes: Routes = [
-  { path: '', redirectTo: '/recipes', pathMatch: 'full' },
+  {
+    path: '',
+    redirectTo: '/recipes',
+    pathMatch: 'full'
+  },
   {
     path: 'recipes',
     component: RecipesComponent,
