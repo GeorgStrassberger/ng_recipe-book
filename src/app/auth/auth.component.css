@@ -1,5 +1,13 @@
-button{
-    margin-right: 4px;
+h2{
+    color: #337AB7;
+    font-weight: bold;
+}
+
+.btn-wrapper{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px;
 }
 
 .loading{

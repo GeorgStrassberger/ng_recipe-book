@@ -17,7 +17,6 @@ export class AuthComponent implements OnInit {
     isLoading: boolean = false;
     error: string | null = null;
 
-
     constructor(
         private authService: AuthService,
         private router: Router,
@@ -66,4 +65,6 @@ export class AuthComponent implements OnInit {
     onHandleError(): void {
         this.error = null;
     }
+
+
 }

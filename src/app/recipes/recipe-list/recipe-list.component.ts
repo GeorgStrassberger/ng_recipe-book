@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { RecipeService } from 'src/app/services/recipe.service';
-import { Recipe } from "../../shared/resipe.model";
+import { RecipeService } from 'src/app/recipes/recipe.service';
+import { Recipe } from "../resipe.model";
 
 @Component({
   selector: 'app-recipe-list',

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Ingredient } from "../shared/ingredient.model";
 import { ShoppinglistService } from "../services/shoppinglist.service";
 import { Subscription } from "rxjs";
