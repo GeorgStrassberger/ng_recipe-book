@@ -29,7 +29,6 @@ import { SharedModule } from "../shared/shared.module";
     ],
     exports: [
     ],
-
 })
 
 export class RecipesModule {
