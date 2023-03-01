@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
-import { DataStorageService } from '../services/data-storage.service';
+import { DataStorageService } from '../shared/data-storage.service';
 import { User } from '../shared/user.model';
 @Component({
   selector: 'app-header',
