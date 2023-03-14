@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 import { catchError, Observable, tap, throwError, BehaviorSubject } from "rxjs";
 import { AuthResponseData } from "../shared/auth-response-data";
 import { User } from "../shared/user.model";
+import { environment } from "src/environments/environment";
 
 @Injectable({
     providedIn: 'root',
@@ -14,7 +15,7 @@ export class AuthService {
     //Firebase
     SIGN_UP_API: string = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=';
     LOGIN_API: string = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=';
-    TOKEN: string = 'AIzaSyCL3-vbY9XE8zj0zRxaQwII3Acl31_zoUQ';
+
 
     user: BehaviorSubject<User> = new BehaviorSubject<User>(null!);
     private tokenExpirationTimer: NodeJS.Timeout | null = null;
@@ -26,7 +27,7 @@ export class AuthService {
 
 
     signup(email: string, password: string,): Observable<AuthResponseData> {
-        return this.http.post<AuthResponseData>(this.SIGN_UP_API + this.TOKEN,
+        return this.http.post<AuthResponseData>(this.SIGN_UP_API + environment.firebaseAPIKey,
             {
                 email: email,
                 password: password,
@@ -47,8 +48,7 @@ export class AuthService {
     }
 
     login(email: string, password: string): Observable<AuthResponseData> {
-        return this.http.post<AuthResponseData>(
-            this.LOGIN_API + this.TOKEN,
+        return this.http.post<AuthResponseData>(this.LOGIN_API + environment.firebaseAPIKey,
             {
                 email: email,
                 password: password,
