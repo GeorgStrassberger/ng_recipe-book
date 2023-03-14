@@ -1,6 +1,5 @@
-import { Action } from "@ngrx/store";
 import { Ingredient } from "../../shared/ingredient.model";
-import { ADD_INGREDIENT } from "./shopping-list.action";
+import * as ShoppingListActions from "./shopping-list.action";
 
 // initalstate = UrsprungsWert
 const initaleState = {
@@ -11,12 +10,17 @@ const initaleState = {
 }
 
 // state ist der original wert vor der änderung, action ist die änderung was den reducer updated 
-export function shoppingListReducer(state = initaleState, action: Action) {
+export function shoppingListReducer(
+    state = initaleState,
+    action: ShoppingListActions.AddIngredient
+) {
     switch (action.type) {
-        case ADD_INGREDIENT:
+        case ShoppingListActions.ADD_INGREDIENT:
             return {
                 ...state,
-                ingredients: [...state.ingredients, action],
+                ingredients: [...state.ingredients, action.payload],
             };
+        default:
+            return state;
     }
 }
